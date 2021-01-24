@@ -19,7 +19,7 @@ public class Books implements Serializable{
     
     private static final long serialVersionUID = 1L;
     @Id
-    private long isbn; // 13 numbers
+    private String isbn;
     
     @Column (name = "title")
     private String title;
@@ -33,23 +33,27 @@ public class Books implements Serializable{
     @Column (name = "price")
     private double price;
     
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_publisher")
     private Publishers publisher;
     
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_author")
     private Authors author;
     
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_type")
     private Types type;
     
-    public long getIsbn() {
+    @ManyToMany(cascade={CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinTable(name = "books_orders", joinColumns = @JoinColumn(name = "isbn"), inverseJoinColumns = @JoinColumn(name = "order_id"))
+    private List<Orders> orders = new ArrayList<>();
+    
+    public String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(long isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
@@ -104,9 +108,19 @@ public class Books implements Serializable{
     public Types getType() {
         return type;
     }
-
+    
     public void setType(Types type) {
         this.type = type;
+    }
+    
+    public void addOrder(Orders order) {
+        this.orders.add(order);
+        order.getBook().add(this);
+    }
+
+    public void removeOrder(Orders order) {
+        this.orders.remove(order);
+        order.getBook().remove(this);
     }
 
     @Override
@@ -115,8 +129,10 @@ public class Books implements Serializable{
                 ", title=" + title +
                 ", release_date=" + release_date +
                 ", quantity_available=" + quantity_available +
-                ", price=" + price + '}';
+                ", price=" + price +
+                ", publisher=" + publisher +
+                ", author=" + author +
+                ", type=" + type + '}';
     }
-    
     
 }

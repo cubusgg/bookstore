@@ -17,30 +17,24 @@ import javafx.stage.Stage;
  * @author jakub
  */
 public class Bookstore extends Application {
-    
+
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/bookstore/FXML.fxml"));
-        
+        Parent root = FXMLLoader.load(getClass().getResource("/bookstore/scenes/login/LOGIN.fxml"));
         Scene scene = new Scene(root);
-        
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        
+
         // TWORZENIE BAZY DANYCH
         // By to zadziałało w pliku hibernate.cfg.xml właściwość hibernate.hbm2ddl.auto trzeba ustawić na create
-        CreateDB create = new CreateDB();
-        create.createDB();
+        //CommDB database = new CommDB();
+        //database.createDB();
         
-        // launch(args);
-        
-        
+
+        launch(args);
     }
-    
+
 }

@@ -29,7 +29,7 @@ public class Authors implements Serializable {
     @Column (name = "lastname")
     private String lastname;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Books> books = new ArrayList<>();
     
     public long getId_author() {
@@ -60,8 +60,6 @@ public class Authors implements Serializable {
         books.add(book);
         book.setAuthor(this);
     }
-    
-    
 
     @Override
     public String toString() {

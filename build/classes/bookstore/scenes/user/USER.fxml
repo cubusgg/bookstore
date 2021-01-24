@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1600.0" style="-fx-background-color: F05658;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bookstore.scenes.user.USERController">
+   <children>
+      <Pane layoutX="40.0" layoutY="40.0" prefHeight="640.0" prefWidth="1520.0" style="-fx-background-color: fff; -fx-background-radius: 20;">
+         <children>
+            <TableView fx:id="tableBooks" layoutX="23.0" layoutY="63.0" prefHeight="514.0" prefWidth="1139.0">
+              <columns>
+                <TableColumn fx:id="columnIsbn" prefWidth="122.0" text="ISBN" />
+                <TableColumn fx:id="columnTitle" prefWidth="145.0" text="Tytuł" />
+                  <TableColumn fx:id="columnAuthor" minWidth="0.0" prefWidth="194.0" text="Autor" />
+                  <TableColumn fx:id="columnPublisher" prefWidth="162.0" text="Wydawca" />
+                  <TableColumn fx:id="columnType" minWidth="0.0" prefWidth="169.0" text="Gatunek" />
+                  <TableColumn fx:id="columnRealaseDate" prefWidth="138.0" text="Rok wydania" />
+                  <TableColumn fx:id="columnQuantity" minWidth="0.0" prefWidth="113.0" text="Sztuki" />
+                  <TableColumn fx:id="columnPrice" minWidth="0.0" prefWidth="94.0" text="Cena" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableCart" layoutX="1186.0" layoutY="120.0" prefHeight="293.0" prefWidth="308.0">
+              <columns>
+                <TableColumn fx:id="columnCartTitle" prefWidth="213.0" text="Tytuł" />
+                <TableColumn fx:id="columnCartPrice" prefWidth="93.0" text="Cena" />
+              </columns>
+            </TableView>
+            <Button fx:id="btnOrder" layoutX="1344.0" layoutY="458.0" mnemonicParsing="false" onAction="#handleBtnOrder" prefHeight="30.0" prefWidth="155.0" style="-fx-background-color: F05658;" text="ZAMÓW" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button fx:id="btnDelete" layoutX="1186.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleBtnDelete" style="-fx-background-color: CDCDCD;" text="USUŃ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button fx:id="btnClear" layoutX="1186.0" layoutY="460.0" mnemonicParsing="false" onAction="#handleBtnClear" style="-fx-background-color: CDCDCD;" text="WYCZYSĆ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Label layoutX="321.0" layoutY="7.0" text="LISTA KSIĄŻEK" textFill="#f05658">
+               <font>
+                  <Font name="Roboto Bold" size="40.0" />
+               </font>
+            </Label>
+            <Label layoutX="1343.0" layoutY="74.0" text="Koszyk" textAlignment="CENTER" textFill="#f05658">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnLogout" layoutX="1405.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleBtnLogout" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: CDCDCD;" text="Wyloguj się" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="-29.0" layoutY="-49.0">
+               <image>
+                  <Image url="@../../../img/logo_transparent_without_text.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="1293.0" layoutY="75.0">
+               <image>
+                  <Image url="@../../../img/shopping-cart.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="btnMyOrders" layoutX="1267.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleBtnMyOrders" style="-fx-background-color: F05658;" text="Moje zamówienia" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Label layoutX="1334.0" layoutY="419.0" text="Do zapłaty:">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblCartPrice" layoutX="1438.0" layoutY="419.0" text="0,00 zł">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Label fx:id="lblHello" layoutX="1210.0" layoutY="5.0" text="Cześć Kuba, dzisiaj jest 20.01.2021" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

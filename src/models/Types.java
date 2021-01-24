@@ -26,7 +26,7 @@ public class Types implements Serializable {
     @Column (name = "name")
     private String name;
     
-    @OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "type", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Books> books = new ArrayList<>();
 
     public long getId_type() {

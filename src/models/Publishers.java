@@ -26,7 +26,7 @@ public class Publishers implements Serializable {
     @Column(name = "name")
     private String name;
     
-    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "publisher", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Books> books = new ArrayList<>();
     
 
@@ -56,4 +56,7 @@ public class Publishers implements Serializable {
         return "Publishers{" + "id_publishers=" + id_publisher +
                 ", name=" + name + '}';
     }
+    
+    
+ 
 }

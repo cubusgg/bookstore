@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1600.0" style="-fx-background-color: F05658;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bookstore.scenes.admin.ADMINController">
+   <children>
+      <Label fx:id="lblHello" layoutX="1210.0" layoutY="5.0" text="Cześć Admin, dzisiaj jest 20.01.2021" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Pane layoutX="31.0" layoutY="40.0" prefHeight="488.0" prefWidth="218.0" style="-fx-background-color: fff; -fx-background-radius: 20;">
+         <children>
+            <Label layoutX="73.0" layoutY="14.0" text="MENU" textFill="#f05658">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Separator layoutX="9.0" layoutY="49.0" prefWidth="200.0" style="-fx-background-color: f05658;" />
+            <Button fx:id="btnCustomers" layoutX="34.0" layoutY="82.0" mnemonicParsing="false" onAction="#handleBtnCustomers" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: f05658;" text="Klienci" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnOrders" layoutX="34.0" layoutY="142.0" mnemonicParsing="false" onAction="#handleBtnOrders" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: f05658;" text="Zamówienia" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnBooks" layoutX="34.0" layoutY="202.0" mnemonicParsing="false" onAction="#handleBtnBooks" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: f05658;" text="Książki" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnAuthors" layoutX="34.0" layoutY="262.0" mnemonicParsing="false" onAction="#handleBtnAuthors" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: f05658;" text="Autorzy" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnPublishers" layoutX="34.0" layoutY="322.0" mnemonicParsing="false" onAction="#handleBtnPublishers" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: f05658;" text="Wydawcy" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnTypes" layoutX="34.0" layoutY="382.0" mnemonicParsing="false" onAction="#handleBtnTypes" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: f05658;" text="Gatunki" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Separator layoutX="9.0" layoutY="441.0" prefHeight="3.0" prefWidth="200.0" style="-fx-background-color: f05658;" />
+            <Label layoutX="54.0" layoutY="456.0" text="Jakub Klocek © 2021">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="paneBooks" layoutX="257.0" layoutY="40.0" prefHeight="640.0" prefWidth="1320.0" style="-fx-background-color: ffffff; -fx-background-radius: 20;">
+         <children>
+            <Label fx:id="labelHeader" layoutX="586.0" layoutY="6.0" text="Książki" textFill="#f05658">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tableBooks" layoutX="29.0" layoutY="68.0" prefHeight="394.0" prefWidth="1270.0">
+               <columns>
+                  <TableColumn fx:id="columnIsbn" prefWidth="122.0" text="ISBN" />
+                  <TableColumn fx:id="columnTitle" prefWidth="214.33331298828125" text="Tytuł" />
+                  <TableColumn fx:id="columnAuthor" minWidth="0.0" prefWidth="193.66668701171875" text="Autor" />
+                  <TableColumn fx:id="columnPublisher" prefWidth="143.0" text="Wydawca" />
+                  <TableColumn fx:id="columnType" minWidth="0.0" prefWidth="203.0" text="Gatunek" />
+                  <TableColumn fx:id="columnRealaseDate" prefWidth="148.33331298828125" text="Rok wydania" />
+                  <TableColumn fx:id="columnQuantity" minWidth="0.0" prefWidth="119.6666259765625" text="Sztuki" />
+                  <TableColumn fx:id="columnPrice" minWidth="0.0" prefWidth="123.0" text="Cena" />
+               </columns>
+            </TableView>
+            <Button fx:id="btnLogout" layoutX="1207.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleBtnLogout" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: CDCDCD;" text="Wyloguj się" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="-10.0" layoutY="-42.0">
+               <image>
+                  <Image url="@../../../img/logo_transparent_without_text.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="77.0" layoutY="473.0" text="ISBN:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <TextField layoutX="127.0" layoutY="473.0" promptText="978-83-01-00000-1" />
+            <TextField layoutX="356.0" layoutY="473.0" />
+            <TextField layoutX="586.0" layoutY="473.0" promptText="Imie Nazwisko" />
+            <TextField layoutX="846.0" layoutY="473.0" />
+            <TextField layoutX="1100.0" layoutY="473.0" />
+            <TextField layoutX="356.0" layoutY="510.0" />
+            <TextField layoutX="586.0" layoutY="510.0" />
+            <TextField layoutX="846.0" layoutY="510.0" promptText="12.34" />
+            <Label layoutX="295.0" layoutY="473.0" text="Tytuł:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="520.0" layoutY="473.0" text="Autor:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="751.0" layoutY="473.0" text="Wydawca:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="1020.0" layoutY="473.0" text="Gatunek:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="237.0" layoutY="510.0" text="Rok wydania:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="518.0" layoutY="510.0" text="Sztuki:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="784.0" layoutY="510.0" text="Cena:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Button layoutX="751.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #28B463;" text="DODAJ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button layoutX="381.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F15A5B;" text="USUŃ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button layoutX="568.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F5BB5C;" text="AKTUALIZUJ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children></Pane>
+      <Pane fx:id="paneAuthors" layoutX="257.0" layoutY="40.0" prefHeight="640.0" prefWidth="1320.0" style="-fx-background-color: ffffff; -fx-background-radius: 20;">
+         <children>
+            <Label fx:id="labelHeader" layoutX="586.0" layoutY="6.0" text="Autorzy" textFill="#f05658">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tableAuthors" layoutX="29.0" layoutY="68.0" prefHeight="394.0" prefWidth="1270.0">
+               <columns>
+                  <TableColumn fx:id="columnIdAuthor" prefWidth="401.9999694824219" text="ID" />
+                  <TableColumn fx:id="columnAuthorName" prefWidth="245.33331298828125" text="Imię" />
+                  <TableColumn fx:id="columnAuthorLastname" minWidth="0.0" prefWidth="621.6666870117188" text="Nazwisko" />
+               </columns>
+            </TableView>
+            <Button fx:id="btnLogout" layoutX="1207.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleBtnLogout" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: CDCDCD;" text="Wyloguj się" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="-10.0" layoutY="-42.0">
+               <image>
+                  <Image url="@../../../img/logo_transparent_without_text.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="301.0" layoutY="474.0" text="ID:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <TextField layoutX="335.0" layoutY="474.0" />
+            <TextField layoutX="574.0" layoutY="475.0" />
+            <Label layoutX="512.0" layoutY="474.0" text="Imię:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="746.0" layoutY="474.0" text="Nazwisko:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Button layoutX="751.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #28B463;" text="DODAJ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button layoutX="381.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F15A5B;" text="USUŃ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <TextField layoutX="832.0" layoutY="474.0" />
+            <Button layoutX="568.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F5BB5C;" text="AKTUALIZUJ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane fx:id="paneOrders" layoutX="257.0" layoutY="40.0" prefHeight="640.0" prefWidth="1320.0" style="-fx-background-color: ffffff; -fx-background-radius: 20;">
+         <children>
+            <Label fx:id="labelHeader" layoutX="586.0" layoutY="6.0" text="Zamówienia" textFill="#f05658">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tableOrders" layoutX="29.0" layoutY="68.0" prefHeight="394.0" prefWidth="1270.0">
+               <columns>
+                  <TableColumn fx:id="columnIdOrder" prefWidth="401.9999694824219" text="ID" />
+                  <TableColumn fx:id="columnImplementationStage" prefWidth="245.33331298828125" text="Eteap realizacji" />
+                  <TableColumn fx:id="columnOrderDate" minWidth="0.0" prefWidth="313.0" text="Data zamówienia" />
+                  <TableColumn fx:id="columnCustomerOrder" prefWidth="307.0" text="Klient" />
+               </columns>
+            </TableView>
+            <Button fx:id="btnLogout" layoutX="1207.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleBtnLogout" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: CDCDCD;" text="Wyloguj się" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="-10.0" layoutY="-42.0">
+               <image>
+                  <Image url="@../../../img/logo_transparent_without_text.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="262.0" layoutY="474.0" text="ID:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <TextField layoutX="295.0" layoutY="474.0" />
+            <TextField layoutX="569.0" layoutY="474.0" />
+            <TextField layoutX="872.0" layoutY="474.0" />
+            <Label layoutX="453.0" layoutY="474.0" text="Etap realizacji:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="731.0" layoutY="474.0" text="Data zamówienia:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Button layoutX="751.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #28B463;" text="DODAJ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button layoutX="381.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F15A5B;" text="USUŃ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button layoutX="568.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F5BB5C;" text="AKTUALIZUJ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <TextField layoutX="569.0" layoutY="512.0" />
+            <Label layoutX="513.0" layoutY="512.0" text="Klient:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="panePublishers" layoutX="257.0" layoutY="40.0" prefHeight="640.0" prefWidth="1320.0" style="-fx-background-color: ffffff; -fx-background-radius: 20;">
+         <children>
+            <Label fx:id="labelHeader" layoutX="586.0" layoutY="6.0" text="Wydawcy" textFill="#f05658">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tablePublishers" layoutX="29.0" layoutY="68.0" prefHeight="394.0" prefWidth="1270.0">
+               <columns>
+                  <TableColumn fx:id="columnIdPublisher" prefWidth="636.0" text="ID" />
+                  <TableColumn fx:id="columnPublisherName" prefWidth="632.0" text="Nazwa" />
+               </columns>
+            </TableView>
+            <Button fx:id="btnLogout" layoutX="1207.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleBtnLogout" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: CDCDCD;" text="Wyloguj się" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="-10.0" layoutY="-42.0">
+               <image>
+                  <Image url="@../../../img/logo_transparent_without_text.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="445.0" layoutY="474.0" text="ID:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <TextField layoutX="482.0" layoutY="474.0" />
+            <TextField layoutX="726.0" layoutY="474.0" />
+            <Label layoutX="660.0" layoutY="474.0" text="Nazwa:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Button layoutX="751.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #28B463;" text="DODAJ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button layoutX="381.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F15A5B;" text="USUŃ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button layoutX="568.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F5BB5C;" text="AKTUALIZUJ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane fx:id="paneTypes" layoutX="257.0" layoutY="40.0" prefHeight="640.0" prefWidth="1320.0" style="-fx-background-color: ffffff; -fx-background-radius: 20;">
+         <children>
+            <Label fx:id="labelHeader" layoutX="586.0" layoutY="6.0" text="Gatunki" textFill="#f05658">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tableTypes" layoutX="29.0" layoutY="68.0" prefHeight="394.0" prefWidth="1270.0">
+               <columns>
+                  <TableColumn fx:id="columnIdType" prefWidth="636.0" text="ID" />
+                  <TableColumn fx:id="columnTypeName" prefWidth="632.0" text="Nazwa" />
+               </columns>
+            </TableView>
+            <Button fx:id="btnLogout" layoutX="1207.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleBtnLogout" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: CDCDCD;" text="Wyloguj się" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="-10.0" layoutY="-42.0">
+               <image>
+                  <Image url="@../../../img/logo_transparent_without_text.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="445.0" layoutY="474.0" text="ID:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <TextField layoutX="482.0" layoutY="474.0" />
+            <TextField layoutX="726.0" layoutY="474.0" />
+            <Label layoutX="660.0" layoutY="474.0" text="Nazwa:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Button layoutX="751.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #28B463;" text="DODAJ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button layoutX="381.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F15A5B;" text="USUŃ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button layoutX="568.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F5BB5C;" text="AKTUALIZUJ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane fx:id="paneCustomers" layoutX="257.0" layoutY="40.0" prefHeight="640.0" prefWidth="1320.0" style="-fx-background-color: ffffff; -fx-background-radius: 20;">
+         <children>
+            <Label fx:id="labelHeader" layoutX="586.0" layoutY="6.0" text="Klienci" textFill="#f05658">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tableCustomers" layoutX="29.0" layoutY="68.0" prefHeight="394.0" prefWidth="1270.0">
+               <columns>
+                  <TableColumn fx:id="columnIdCustomer" prefWidth="43.0" text="ID" />
+                  <TableColumn fx:id="columnEmail" prefWidth="151.0" text="Email" />
+                  <TableColumn fx:id="columnPassword" minWidth="0.0" prefWidth="108.3333740234375" text="Hasło" />
+                  <TableColumn fx:id="columnName" prefWidth="97.6666259765625" text="Imię" />
+                  <TableColumn fx:id="columnLastname" minWidth="0.0" prefWidth="109.3333740234375" text="Nazwisko" />
+                  <TableColumn fx:id="columnPhone" prefWidth="105.0" text="Telefon" />
+                  <TableColumn fx:id="columnCity" prefWidth="120.0" text="Miasto" />
+                  <TableColumn fx:id="columnStreet" minWidth="0.0" prefWidth="121.66668701171875" text="Ulica" />
+                  <TableColumn fx:id="columnHouseNumber" minWidth="0.0" prefWidth="89.0" text="Numer domu" />
+                  <TableColumn fx:id="columnZipcode" prefWidth="93.333251953125" text="Kod pocztowy" />
+                  <TableColumn fx:id="columnVoivodeship" prefWidth="98.3333740234375" text="Województwo" />
+                  <TableColumn fx:id="columnIsLogin" prefWidth="78.3333740234375" text="Zalogowany" />
+                  <TableColumn fx:id="columnAdmin" prefWidth="50.0" text="Admin" />
+               </columns>
+            </TableView>
+            <Button fx:id="btnLogout" layoutX="1207.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleBtnLogout" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: CDCDCD;" text="Wyloguj się" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="-10.0" layoutY="-42.0">
+               <image>
+                  <Image url="@../../../img/logo_transparent_without_text.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="29.0" layoutY="473.0" text="ID:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <TextField layoutX="58.0" layoutY="473.0" />
+            <TextField layoutX="266.0" layoutY="473.0" />
+            <TextField layoutX="477.0" layoutY="473.0" />
+            <TextField layoutX="677.0" layoutY="473.0" />
+            <TextField layoutX="919.0" layoutY="473.0" />
+            <TextField layoutX="1141.0" layoutY="473.0" />
+            <TextField layoutX="90.0" layoutY="510.0" />
+            <TextField layoutX="297.0" layoutY="510.0" />
+            <TextField layoutX="569.0" layoutY="510.0" />
+            <TextField layoutX="845.0" layoutY="510.0" />
+            <TextField layoutX="1133.0" layoutY="510.0" />
+            <TextField layoutX="569.0" layoutY="544.0" />
+            <Button layoutX="751.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #28B463;" text="DODAJ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button layoutX="568.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F5BB5C;" text="AKTUALIZUJ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button layoutX="381.0" layoutY="583.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F15A5B;" text="USUŃ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Label layoutX="213.0" layoutY="473.0" text="Email:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="422.0" layoutY="473.0" text="Hasło:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="630.0" layoutY="473.0" text="Imię:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="836.0" layoutY="473.0" text="Nazwisko:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="1074.0" layoutY="473.0" text="Telefon:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="30.0" layoutY="510.0" text="Miasto:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="245.0" layoutY="510.0" text="Ulica:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="456.0" layoutY="510.0" text="Numer domu:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="724.0" layoutY="510.0" text="Kod pocztowy:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="1011.0" layoutY="510.0" text="Województwo:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="504.0" layoutY="544.0" text="Admin:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
