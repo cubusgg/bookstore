@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bookstore.scenes.user;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
@@ -24,14 +18,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import models.Authors;
-import models.Books;
+import models.Orders;
 import models.Customers;
 
 /**
@@ -46,51 +38,28 @@ public class USERController implements Initializable {
     
 
     @FXML
-    private Button btnOrder;
-    @FXML
-    private Button btnDelete;
-    @FXML
-    private Button btnClear;
-    @FXML
     private Button btnLogout;
     @FXML
-    private Button btnMyOrders;
-    @FXML
-    private Label lblCartPrice;
-    @FXML
     private Label lblHello;
-    
     @FXML
-    private TableView<Books> tableBooks;
+    private TableView<Orders> tableOrders;
     @FXML
-    private TableColumn<Books, String> columnIsbn;
+    private TableColumn<Orders, String> columnId;
     @FXML
-    private TableColumn<Books, String> columnTitle;
+    private TableColumn<Orders, String> columnOrderStatus;
     @FXML
-    private TableColumn<Books, String> columnAuthor;
+    private TableColumn<Orders, String> columnOrderDate;
     @FXML
-    private TableColumn<Books, String> columnPublisher;
-    @FXML
-    private TableColumn<Books, String> columnType;
-    @FXML
-    private TableColumn<Books, String> columnRealaseDate;
-    @FXML
-    private TableColumn<Books, Integer> columnQuantity;
-    @FXML
-    private TableColumn<Books, Double> columnPrice;
-    
-    @FXML
-    private TableView<?> tableCart;
-    @FXML
-    private TableColumn<?, ?> columnCartTitle;
-    @FXML
-    private TableColumn<?, ?> columnCartPrice;
+    private TableColumn<Orders, String> columnOrderBook;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        /**
+         * Wyłapywanie zalogowanego użytkowika i załadownie powitania oraz załadowanie danych
+         */
         try {
             List<Customers> login = em.createNativeQuery("select * from customers where is_login", Customers.class).getResultList();
             
@@ -100,41 +69,27 @@ public class USERController implements Initializable {
             System.out.println("Error: " + e);
         }
         
-        showDataBooks();
+        showDataOrders();
     }    
 
-    private void showDataBooks() {
-        List<Books> books = em.createNativeQuery("select * from books", Books.class).getResultList();
-        ObservableList<Books> obsBooks = FXCollections.observableList(books);
+    private void showDataOrders() {
+        /**
+         * Rederowanie danych zamówien tylko zalogowanego użytkownika
+         */
+        List<Customers> login = em.createNativeQuery("select * from customers where is_login", Customers.class).getResultList();
+        List<Orders> orders = em.createNativeQuery("select * from orders where id_customer=:id", Orders.class).setParameter("id", login.get(0).getId_customer()).getResultList();
+        ObservableList<Orders> obsOrders = FXCollections.observableList(orders);
         
-        columnIsbn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
-        columnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        columnAuthor.setCellValueFactory((cell) -> {
-            SimpleStringProperty name = new SimpleStringProperty(new SimpleStringProperty(cell.getValue().getAuthor().getName()).get() + " "
-                    + new SimpleStringProperty(cell.getValue().getAuthor().getLastname()).get());
-            return name;
+        columnId.setCellValueFactory(new PropertyValueFactory<>("id_order"));
+        columnOrderStatus.setCellValueFactory(new PropertyValueFactory<>("implementation_stage"));
+        columnOrderDate.setCellValueFactory(new PropertyValueFactory<>("order_date"));
+        columnOrderBook.setCellValueFactory((cell) -> {
+            return new SimpleStringProperty(cell.getValue().getBook().get(0).getTitle());
         });
-        columnPublisher.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getPublisher().getName()));
-        columnType.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getType().getName()));
-        columnRealaseDate.setCellValueFactory(new PropertyValueFactory<>("release_date"));
-        columnQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity_available"));
-        columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        tableBooks.setItems(obsBooks);
+        tableOrders.setItems(obsOrders);
     }
-    
-    @FXML
-    private void handleBtnOrder(ActionEvent event) {
-    }
-
-    @FXML
-    private void handleBtnDelete(ActionEvent event) {
-    }
-
-    @FXML
-    private void handleBtnClear(ActionEvent event) {
-    }
-
+    // -------- PRZYCISK WYGOLOWANIA --------
     @FXML
     private void handleBtnLogout(ActionEvent event) {
         Stage stage = (Stage) btnLogout.getScene().getWindow();
@@ -146,11 +101,10 @@ public class USERController implements Initializable {
         }
     }
 
-    @FXML
-    private void handleBtnMyOrders(ActionEvent event) {
-    }
-    
     private void openScene(String name) throws IOException {
+        /**
+         * Metoda otwierajaca scene
+         */
         Parent loader = FXMLLoader.load(getClass().getResource("/bookstore/scenes/" + name + "/" + name.toUpperCase() + ".fxml"));
         Scene scene = new Scene(loader);
         Stage stage = new Stage();

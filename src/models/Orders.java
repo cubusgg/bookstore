@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package models;
 
 import java.io.Serializable;
@@ -71,13 +66,23 @@ public class Orders implements Serializable {
     public void setBook(List<Books> books) {
         this.books = books;
     }
+    
+    public void addBook(Books book) {
+        this.books.add(book);
+        book.getOrder().add(this);
+    }
+    
+    public void removeBook(Books book) {
+        this.books.remove(book);
+        book.getOrder().remove(this);
+    }
 
     @Override
     public String toString() {
         return "Orders{" + "id_order=" + id_order +
                 ", order_date=" + order_date +
                 ", implementation_stage=" + implementation_stage +
+                ", customer=" + customer +
                 '}';
     }
-    
 }

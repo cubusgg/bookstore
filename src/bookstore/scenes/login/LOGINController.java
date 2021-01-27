@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bookstore.scenes.login;
 
 import java.io.IOException;
@@ -32,9 +27,10 @@ import models.Customers;
  */
 public class LOGINController implements Initializable {
     
+    // ENTITY MANAGER
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("BookstorePU");
     EntityManager em = emf.createEntityManager();
-
+    
     @FXML
     private Label lblError;
     @FXML
@@ -49,6 +45,9 @@ public class LOGINController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        /**
+         * Zmienianie wartości isLogin na false. W jednym momencie może być zalogowany tylko jeden użytkownik.
+         */
         try {
             List<Customers> email = em.createNativeQuery("select * from customers", Customers.class).getResultList();
         
@@ -65,7 +64,9 @@ public class LOGINController implements Initializable {
     
     @FXML
     private void handleBtnLogin(ActionEvent event) {
-        
+        /**
+         * Logowanie
+         */
         try {
             List<Customers> email = em.createNativeQuery("select * from customers where email = :email", Customers.class).setParameter("email", inputLogin.getText()).getResultList();
             
@@ -97,6 +98,9 @@ public class LOGINController implements Initializable {
     }
     
     private void openScene(String name) throws IOException {
+        /**
+         * Metoda otwierajaca scene
+         */
         Parent loader = FXMLLoader.load(getClass().getResource("/bookstore/scenes/" + name + "/" + name.toUpperCase() + ".fxml"));
         Scene scene = new Scene(loader);
         Stage stage = new Stage();

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package models;
 
 import java.io.Serializable;
@@ -56,7 +51,4 @@ public class Publishers implements Serializable {
         return "Publishers{" + "id_publishers=" + id_publisher +
                 ", name=" + name + '}';
     }
-    
-    
- 
 }
