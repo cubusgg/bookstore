@@ -30,8 +30,8 @@ public class Bookstore extends Application {
          * CreateDB database = new CreateDB();
          * database.createDB();
         */
-        CreateDB database = new CreateDB();
-        database.createDB();
+        //CreateDB database = new CreateDB();
+        //database.createDB();
         
         launch(args);
     }
