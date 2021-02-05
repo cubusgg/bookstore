@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
@@ -65,58 +66,6 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="panePublishers" layoutX="257.0" layoutY="40.0" prefHeight="640.0" prefWidth="1320.0" style="-fx-background-color: ffffff; -fx-background-radius: 20;">
-         <children>
-            <Label fx:id="labelHeader" layoutX="586.0" layoutY="6.0" text="Wydawnictwa" textFill="#f05658">
-               <font>
-                  <Font name="System Bold" size="40.0" />
-               </font>
-            </Label>
-            <TableView fx:id="tablePublishers" layoutX="29.0" layoutY="68.0" prefHeight="394.0" prefWidth="1270.0">
-               <columns>
-                  <TableColumn fx:id="columnIdPublisher" prefWidth="636.0" style="-fx-alignment: CENTER;" text="ID" />
-                  <TableColumn fx:id="columnPublisherName" prefWidth="632.0" style="-fx-alignment: CENTER;" text="Nazwa" />
-               </columns>
-            </TableView>
-            <Button fx:id="btnLogout" layoutX="1207.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleBtnLogout" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: CDCDCD;" text="Wyloguj się" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="-10.0" layoutY="-42.0">
-               <image>
-                  <Image url="@../../../img/logo_transparent_without_text.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="445.0" layoutY="474.0" text="ID:">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Label>
-            <TextField fx:id="inputIdPublisher" layoutX="482.0" layoutY="474.0" />
-            <TextField fx:id="inputNamePublisher" layoutX="726.0" layoutY="474.0" />
-            <Label layoutX="660.0" layoutY="474.0" text="Nazwa:">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Label>
-            <Button fx:id="btnAddPublisher" layoutX="751.0" layoutY="583.0" mnemonicParsing="false" onAction="#handleBtnAddPublisher" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #28B463;" text="DODAJ" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnDeletePublisher" layoutX="381.0" layoutY="583.0" mnemonicParsing="false" onAction="#handleBtnDeletePublisher" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F15A5B;" text="USUŃ" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnUpdatePublisher" layoutX="568.0" layoutY="583.0" mnemonicParsing="false" onAction="#handleBtnUpdatePublisher" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F5BB5C;" text="AKTUALIZUJ" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-         </children>
-      </Pane>
       <Pane fx:id="paneTypes" layoutX="257.0" layoutY="40.0" prefHeight="640.0" prefWidth="1320.0" style="-fx-background-color: ffffff; -fx-background-radius: 20;">
          <children>
             <Label fx:id="labelHeader" layoutX="586.0" layoutY="6.0" text="Gatunki" textFill="#f05658">
@@ -124,7 +73,7 @@
                   <Font name="System Bold" size="40.0" />
                </font>
             </Label>
-            <TableView fx:id="tableTypes" layoutX="29.0" layoutY="68.0" prefHeight="394.0" prefWidth="1270.0">
+            <TableView fx:id="tableTypes" layoutX="29.0" layoutY="68.0" onMouseClicked="#handleTableViewTypes" prefHeight="394.0" prefWidth="1270.0">
                <columns>
                   <TableColumn fx:id="columnIdType" prefWidth="636.0" style="-fx-alignment: CENTER;" text="ID" />
                   <TableColumn fx:id="columnTypeName" prefWidth="632.0" style="-fx-alignment: CENTER;" text="Nazwa" />
@@ -169,6 +118,58 @@
             </Button>
          </children>
       </Pane>
+      <Pane fx:id="panePublishers" layoutX="257.0" layoutY="40.0" prefHeight="640.0" prefWidth="1320.0" style="-fx-background-color: ffffff; -fx-background-radius: 20;">
+         <children>
+            <Label fx:id="labelHeader" layoutX="586.0" layoutY="6.0" text="Wydawnictwa" textFill="#f05658">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tablePublishers" layoutX="29.0" layoutY="68.0" onMouseClicked="#handleTableViewPublishers" prefHeight="394.0" prefWidth="1270.0">
+               <columns>
+                  <TableColumn fx:id="columnIdPublisher" prefWidth="636.0" style="-fx-alignment: CENTER;" text="ID" />
+                  <TableColumn fx:id="columnPublisherName" prefWidth="632.0" style="-fx-alignment: CENTER;" text="Nazwa" />
+               </columns>
+            </TableView>
+            <Button fx:id="btnLogout" layoutX="1207.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleBtnLogout" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: CDCDCD;" text="Wyloguj się" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="-10.0" layoutY="-42.0">
+               <image>
+                  <Image url="@../../../img/logo_transparent_without_text.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="445.0" layoutY="474.0" text="ID:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="inputIdPublisher" layoutX="482.0" layoutY="474.0" />
+            <TextField fx:id="inputNamePublisher" layoutX="726.0" layoutY="474.0" />
+            <Label layoutX="660.0" layoutY="474.0" text="Nazwa:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnAddPublisher" layoutX="751.0" layoutY="583.0" mnemonicParsing="false" onAction="#handleBtnAddPublisher" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #28B463;" text="DODAJ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnDeletePublisher" layoutX="381.0" layoutY="583.0" mnemonicParsing="false" onAction="#handleBtnDeletePublisher" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F15A5B;" text="USUŃ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnUpdatePublisher" layoutX="568.0" layoutY="583.0" mnemonicParsing="false" onAction="#handleBtnUpdatePublisher" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: F5BB5C;" text="AKTUALIZUJ" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
       <Pane fx:id="paneAuthors" layoutX="257.0" layoutY="40.0" prefHeight="640.0" prefWidth="1320.0" style="-fx-background-color: ffffff; -fx-background-radius: 20;">
          <children>
             <Label fx:id="labelHeader" layoutX="586.0" layoutY="6.0" text="Autorzy" textFill="#f05658">
@@ -176,7 +177,7 @@
                   <Font name="System Bold" size="40.0" />
                </font>
             </Label>
-            <TableView fx:id="tableAuthors" layoutX="29.0" layoutY="68.0" prefHeight="394.0" prefWidth="1270.0">
+            <TableView fx:id="tableAuthors" layoutX="29.0" layoutY="68.0" onMouseClicked="#handleTableViewAuthors" prefHeight="394.0" prefWidth="1270.0">
                <columns>
                   <TableColumn fx:id="columnIdAuthor" prefWidth="401.9999694824219" style="-fx-alignment: CENTER;" text="ID" />
                   <TableColumn fx:id="columnAuthorName" prefWidth="245.33331298828125" style="-fx-alignment: CENTER;" text="Imię" />
@@ -235,7 +236,7 @@
                   <Font name="System Bold" size="40.0" />
                </font>
             </Label>
-            <TableView fx:id="tableBooks" layoutX="29.0" layoutY="68.0" prefHeight="394.0" prefWidth="1270.0">
+            <TableView fx:id="tableBooks" layoutX="29.0" layoutY="68.0" onMouseClicked="#handleTableViewBooks" prefHeight="394.0" prefWidth="1270.0">
                <columns>
                   <TableColumn fx:id="columnIsbn" prefWidth="122.0" style="-fx-alignment: CENTER;" text="ISBN" />
                   <TableColumn fx:id="columnTitle" prefWidth="214.33331298828125" style="-fx-alignment: CENTER;" text="Tytuł" />
@@ -264,9 +265,9 @@
             </Label>
             <TextField fx:id="inputIsbnBook" layoutX="127.0" layoutY="473.0" promptText="978-83-01-00000-1" />
             <TextField fx:id="inputTitleBook" layoutX="356.0" layoutY="473.0" />
-            <TextField fx:id="inputAuthorBook" layoutX="586.0" layoutY="473.0" promptText="ID autora" />
-            <TextField fx:id="inputPublisherBook" layoutX="858.0" layoutY="473.0" promptText="ID wydawnictwa" />
-            <TextField fx:id="inputTypeBook" layoutX="1100.0" layoutY="473.0" promptText="ID gatunku" />
+            <ComboBox fx:id="comboboxAuthorBook" layoutX="585.0" layoutY="473.0" prefWidth="150.0" promptText="Autor" />
+            <ComboBox fx:id="comboboxPublisherBook" layoutX="857.0" layoutY="473.0" prefWidth="150.0" promptText="Wydawnictwo" />
+            <ComboBox fx:id="comboboxTypeBook" layoutX="1099.0" layoutY="473.0" prefWidth="150.0" promptText="Gatunek" />
             <TextField fx:id="inputReleaseDateBook" layoutX="356.0" layoutY="510.0" />
             <TextField fx:id="inputQuantityBook" layoutX="586.0" layoutY="510.0" />
             <TextField fx:id="inputPriceBook" layoutX="858.0" layoutY="510.0" promptText="12.34" />
@@ -328,7 +329,7 @@
                   <Font name="System Bold" size="40.0" />
                </font>
             </Label>
-            <TableView fx:id="tableOrders" layoutX="29.0" layoutY="68.0" prefHeight="394.0" prefWidth="1270.0">
+            <TableView fx:id="tableOrders" layoutX="29.0" layoutY="68.0" onMouseClicked="#handleTableViewOrders" prefHeight="394.0" prefWidth="1270.0">
                <columns>
                   <TableColumn fx:id="columnIdOrder" prefWidth="401.9999694824219" style="-fx-alignment: CENTER;" text="ID" />
                   <TableColumn fx:id="columnImplementationStage" prefWidth="178.0" style="-fx-alignment: CENTER;" text="Eteap realizacji" />
@@ -353,15 +354,16 @@
                </font>
             </Label>
             <TextField fx:id="inputIdOrder" layoutX="295.0" layoutY="474.0" />
-            <TextField fx:id="inputImplementationStageOrder" layoutX="569.0" layoutY="474.0" />
-            <TextField fx:id="inputDateOrder" layoutX="872.0" layoutY="474.0" />
-            <TextField fx:id="inputCustomerOrder" layoutX="494.0" layoutY="512.0" promptText="ID klienta" />
+            <ComboBox fx:id="comboboxImplementationStageOrder" layoutX="568.0" layoutY="474.0" prefHeight="25.0" prefWidth="185.0" />
+            <TextField fx:id="inputDateOrder" layoutX="901.0" layoutY="474.0" />
+            <ComboBox fx:id="comboboxCustomerOrder" layoutX="493.0" layoutY="512.0" prefWidth="150.0" />
+            <ComboBox fx:id="combboxIsbnOrder" layoutX="718.0" layoutY="512.0" prefWidth="150.0" />
             <Label layoutX="453.0" layoutY="474.0" text="Etap realizacji:">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Label layoutX="731.0" layoutY="474.0" text="Data zamówienia:">
+            <Label layoutX="759.0" layoutY="474.0" text="Data zamówienia:">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -391,7 +393,6 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="inputIsbnOrder" layoutX="723.0" layoutY="512.0" promptText="ISBN" />
          </children>
       </Pane>
       <Pane fx:id="paneCustomers" layoutX="257.0" layoutY="40.0" prefHeight="640.0" prefWidth="1320.0" style="-fx-background-color: ffffff; -fx-background-radius: 20;">
@@ -401,7 +402,7 @@
                   <Font name="System Bold" size="40.0" />
                </font>
             </Label>
-            <TableView fx:id="tableCustomers" layoutX="29.0" layoutY="68.0" prefHeight="394.0" prefWidth="1270.0">
+            <TableView fx:id="tableCustomers" layoutX="29.0" layoutY="68.0" onMouseClicked="#handleTableViewCustomers" prefHeight="394.0" prefWidth="1270.0">
                <columns>
                   <TableColumn fx:id="columnIdCustomer" prefWidth="43.0" style="-fx-alignment: CENTER;" text="ID" />
                   <TableColumn fx:id="columnEmail" prefWidth="151.0" style="-fx-alignment: CENTER;" text="Email" />
@@ -444,7 +445,7 @@
             <TextField fx:id="inputHouseNumberCustomer" layoutX="569.0" layoutY="510.0" />
             <TextField fx:id="inputZipcodeCustomer" layoutX="845.0" layoutY="510.0" />
             <TextField fx:id="inputVoivodeshipCustomer" layoutX="1133.0" layoutY="510.0" />
-            <TextField fx:id="inputAdminCustomer" layoutX="569.0" layoutY="544.0" />
+            <ComboBox fx:id="comoboxAdminCustomer" layoutX="568.0" layoutY="544.0" prefWidth="150.0" promptText="Wybierz opcje" />
             <Button fx:id="btnAddCustomer" layoutX="751.0" layoutY="583.0" mnemonicParsing="false" onAction="#handleBtnAddCustomer" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #28B463;" text="DODAJ" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />

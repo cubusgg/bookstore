@@ -15,11 +15,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javax.persistence.EntityManager;
@@ -36,7 +38,7 @@ public class ADMINController implements Initializable {
     
     // ENTITY MANAGER
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("BookstorePU");
-    EntityManager em = emf.createEntityManager();
+    EntityManager em;
     
     // -------- MENU --------
     @FXML
@@ -112,7 +114,7 @@ public class ADMINController implements Initializable {
     @FXML
     private TextField inputVoivodeshipCustomer;
     @FXML
-    private TextField inputAdminCustomer;
+    private ComboBox<Boolean> comoboxAdminCustomer;
     @FXML
     private Button btnUpdateCusotmer;
     @FXML
@@ -138,13 +140,13 @@ public class ADMINController implements Initializable {
     @FXML
     private TextField inputIdOrder;
     @FXML
-    private TextField inputImplementationStageOrder;
-    @FXML
     private TextField inputDateOrder;
     @FXML
-    private TextField inputCustomerOrder;
+    private ComboBox<String> comboboxImplementationStageOrder;
     @FXML
-    private TextField inputIsbnOrder;
+    private ComboBox<String> comboboxCustomerOrder;
+    @FXML
+    private ComboBox<String> combboxIsbnOrder;
     @FXML
     private Button btnAddOrder;
     @FXML
@@ -178,17 +180,17 @@ public class ADMINController implements Initializable {
     @FXML
     private TextField inputTitleBook;
     @FXML
-    private TextField inputAuthorBook;
-    @FXML
-    private TextField inputPublisherBook;
-    @FXML
-    private TextField inputTypeBook;
-    @FXML
     private TextField inputReleaseDateBook;
     @FXML
     private TextField inputQuantityBook;
     @FXML
     private TextField inputPriceBook;
+    @FXML
+    private ComboBox<String> comboboxAuthorBook;
+    @FXML
+    private ComboBox<String> comboboxPublisherBook;
+    @FXML
+    private ComboBox<String> comboboxTypeBook;
     @FXML
     private Button btnAddBook;
     @FXML
@@ -266,6 +268,7 @@ public class ADMINController implements Initializable {
         /**
          * Wyłapywanie zalogowanego użytkowika i załadownie powitania oraz załadowanie danych
          */
+        em = emf.createEntityManager();
         try {
             List<Customers> login = em.createNativeQuery("select * from customers where is_login", Customers.class).getResultList();
             LocalDate date = LocalDate.now();
@@ -273,7 +276,7 @@ public class ADMINController implements Initializable {
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
-        
+        em.close();
         showDataCustomers();
     }
     public void turnOffPane() {
@@ -303,6 +306,8 @@ public class ADMINController implements Initializable {
         /**
          * Rederowanie danych dla klientów
          */
+        em = emf.createEntityManager();
+        
         List<Customers> list = em.createNativeQuery("select * from customers", Customers.class).getResultList();
         ObservableList<Customers> obs = FXCollections.observableList(list);
         
@@ -321,11 +326,18 @@ public class ADMINController implements Initializable {
         columnAdmin.setCellValueFactory(new PropertyValueFactory<>("admin"));
         
         tableCustomers.setItems(obs);
+        
+        ObservableList<Boolean> combo = FXCollections.observableArrayList(true, false);
+        comoboxAdminCustomer.setItems(combo);
+        
+        em.close();
     }
     private void showDataOrders() {
         /**
          * Rederowanie danych dla zamówień
          */
+        em = emf.createEntityManager();
+        
         List<Orders> list = em.createNativeQuery("select * from orders", Orders.class).getResultList();
         ObservableList<Orders> obs = FXCollections.observableList(list);
         
@@ -342,13 +354,28 @@ public class ADMINController implements Initializable {
             return new SimpleStringProperty(cell.getValue().getBook().get(0).getTitle());
         });
         
-        
         tableOrders.setItems(obs);
+        
+        ObservableList<String> combo = FXCollections.observableArrayList("Zamówienie opłacone", "Paczka zapakowana",
+                "Odebrane przez kuriera", "Podczas doręczania", "Zamówienie dostarczone");
+        comboboxImplementationStageOrder.setItems(combo);
+        
+        List<String> isbn = em.createNativeQuery("select isbn from books").getResultList();
+        ObservableList<String> combo2 = FXCollections.observableList(isbn);
+        combboxIsbnOrder.setItems(combo2);
+        
+        List<String> cusotmer = em.createNativeQuery("select concat(id_customer, '. ', name, ' ', lastname) from customers").getResultList();
+        ObservableList<String> combo3 = FXCollections.observableList(cusotmer);
+        comboboxCustomerOrder.setItems(combo3);
+
+        em.close();
     }
     private void showDataBooks() {
         /**
          * Rederowanie danych dla książek
          */
+        em = emf.createEntityManager();
+        
         List<Books> list = em.createNativeQuery("select * from books", Books.class).getResultList();
         ObservableList<Books> obs = FXCollections.observableList(list);
         
@@ -366,11 +393,27 @@ public class ADMINController implements Initializable {
         columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         tableBooks.setItems(obs);
+        
+        List<String> authorsList = em.createNativeQuery("select concat(id_author, '. ', name, ' ', lastname) from authors").getResultList();
+        ObservableList<String> combo = FXCollections.observableList(authorsList);
+        comboboxAuthorBook.setItems(combo);
+        
+        List<String> publishersList = em.createNativeQuery("select concat(id_publisher, '. ', name) from publishers").getResultList();
+        ObservableList<String> combo2 = FXCollections.observableList(publishersList);
+        comboboxPublisherBook.setItems(combo2);
+        
+        List<String> typesList = em.createNativeQuery("select concat(id_type, '. ', name) from types").getResultList();
+        ObservableList<String> combo3 = FXCollections.observableList(typesList);
+        comboboxTypeBook.setItems(combo3);
+        
+        em.close();
     }
     private void showDataAuthors() {
         /**
          * Rederowanie danych dla autorów
          */
+        em = emf.createEntityManager();
+        
         List<Authors> list = em.createNativeQuery("select * from authors", Authors.class).getResultList();
         ObservableList<Authors> obs = FXCollections.observableList(list);
         
@@ -379,11 +422,15 @@ public class ADMINController implements Initializable {
         columnAuthorLastname.setCellValueFactory(new PropertyValueFactory<>("lastname"));
         
         tableAuthors.setItems(obs);
+        
+        em.close();
     }
     private void showDataPublishers() {
         /**
          * Rederowanie danych dla wydawców
          */
+        em = emf.createEntityManager();
+        
         List<Publishers> list = em.createNativeQuery("select * from publishers", Publishers.class).getResultList();
         ObservableList<Publishers> obs = FXCollections.observableList(list);
         
@@ -391,11 +438,15 @@ public class ADMINController implements Initializable {
         columnPublisherName.setCellValueFactory(new PropertyValueFactory<>("name"));
         
         tablePublishers.setItems(obs);
+        
+        em.close();
     }
     private void showDataTypes() {
         /**
          * Rederowanie danych dla gatunków
          */
+        em = emf.createEntityManager();
+        
         List<Types> list = em.createNativeQuery("select * from types", Types.class).getResultList();
         ObservableList<Types> obs = FXCollections.observableList(list);
         
@@ -403,8 +454,9 @@ public class ADMINController implements Initializable {
         columnTypeName.setCellValueFactory(new PropertyValueFactory<>("name"));
         
         tableTypes.setItems(obs);
+        
+        em.close();
     }
-    
 
     // -------- PRZYCISKI MENU --------
     @FXML
@@ -438,7 +490,6 @@ public class ADMINController implements Initializable {
         panePublishers.setVisible(true);
 
     }
-
     @FXML
     private void handleBtnTypes(ActionEvent event) {
         turnOffPane();
@@ -458,10 +509,11 @@ public class ADMINController implements Initializable {
         }
     }
     
-    // -------- KLIENT DODAJ USUŃ AKTUALIZUJ --------
+    // -------- KLIENT -> DODAJ USUŃ AKTUALIZUJ --------
     @FXML
     private void handleBtnAddCustomer(ActionEvent event) {
         try {
+            em = emf.createEntityManager();
             Customers customer = new Customers();
             
             if (!(("").equals(inputEmailCustomer.getText()) || ("").equals(inputPasswordCustomer.getText()) || 
@@ -469,7 +521,7 @@ public class ADMINController implements Initializable {
                     ("").equals(inputPhoneCustomer.getText()) || ("").equals(inputCityCustomer.getText()) || 
                     ("").equals(inputStreetCustomer.getText()) || ("").equals(inputHouseNumberCustomer.getText()) || 
                     ("").equals(inputZipcodeCustomer.getText()) || ("").equals(inputVoivodeshipCustomer.getText()) || 
-                    ("").equals(inputAdminCustomer.getText()))){
+                    comoboxAdminCustomer.getValue() == null)){
                 
                 customer.setEmail(inputEmailCustomer.getText());
                 customer.setPassword(inputPasswordCustomer.getText());
@@ -481,22 +533,24 @@ public class ADMINController implements Initializable {
                 customer.setHouse_number(inputHouseNumberCustomer.getText());
                 customer.setZipcode(inputZipcodeCustomer.getText());
                 customer.setVoivodeship(inputVoivodeshipCustomer.getText());
-                customer.setAdmin(Boolean.parseBoolean(inputAdminCustomer.getText()));
+                customer.setAdmin(comoboxAdminCustomer.getValue());
                 
                 em.getTransaction().begin();
                 em.persist(customer);
                 em.getTransaction().commit();
+                em.close();
             }
         } catch (Exception e ){
             System.out.println("Error: " + e);
         }
-        
+
         showDataCustomers();
     }
     @FXML
     private void handleBtnDeleteCustomer(ActionEvent event) {
         
         try {
+            em = emf.createEntityManager();
             Customers customer = em.find(Customers.class, Long.valueOf(inputIdCustomer.getText()));
             
             try {
@@ -508,7 +562,8 @@ public class ADMINController implements Initializable {
             }
             
             em.remove(customer);
-            em.getTransaction().commit();  
+            em.getTransaction().commit(); 
+            em.close();
         } catch (Exception e ){
             System.out.println("Error: " + e);
         }
@@ -519,6 +574,7 @@ public class ADMINController implements Initializable {
     @FXML
     private void handleBtnUpdateCustomer(ActionEvent event) {
         try {
+            em = emf.createEntityManager();
             Customers customer = em.find(Customers.class, Long.valueOf(inputIdCustomer.getText()));
             
             try {
@@ -534,7 +590,7 @@ public class ADMINController implements Initializable {
                     ("").equals(inputPhoneCustomer.getText()) || ("").equals(inputCityCustomer.getText()) || 
                     ("").equals(inputStreetCustomer.getText()) || ("").equals(inputHouseNumberCustomer.getText()) || 
                     ("").equals(inputZipcodeCustomer.getText()) || ("").equals(inputVoivodeshipCustomer.getText()) || 
-                    ("").equals(inputAdminCustomer.getText()))){
+                    comoboxAdminCustomer.getValue() == null)){
                 
                 customer.setEmail(inputEmailCustomer.getText());
                 customer.setPassword(inputPasswordCustomer.getText());
@@ -546,10 +602,12 @@ public class ADMINController implements Initializable {
                 customer.setHouse_number(inputHouseNumberCustomer.getText());
                 customer.setZipcode(inputZipcodeCustomer.getText());
                 customer.setVoivodeship(inputVoivodeshipCustomer.getText());
-                customer.setAdmin(Boolean.parseBoolean(inputAdminCustomer.getText()));
+                customer.setAdmin(comoboxAdminCustomer.getValue());
                 
                 em.merge(customer);
-                em.getTransaction().commit();  
+                em.getTransaction().commit();
+                em.close();
+                
             }
         } catch (Exception e ){
             System.out.println("Error: " + e);
@@ -559,23 +617,32 @@ public class ADMINController implements Initializable {
 
     }
 
-    // -------- ZAMÓWIENIA DODAJ USUŃ AKTUALIZUJ --------
+    // -------- ZAMÓWIENIA -> DODAJ USUŃ AKTUALIZUJ --------
     @FXML
     private void handleBtnAddOrder(ActionEvent event) { 
         try {
+            em = emf.createEntityManager();
             Orders order = new Orders();
             
-            if (!(("").equals(inputImplementationStageOrder.getText()) || ("").equals(inputDateOrder.getText()) || 
-                    ("").equals(inputCustomerOrder.getText()) || ("").equals(inputIsbnOrder.getText()))){
+            if (!(comboboxImplementationStageOrder.getValue() == null || ("").equals(inputDateOrder.getText()) || 
+                    comboboxCustomerOrder.getValue() == null || combboxIsbnOrder.getValue() == null)){
                 
-                order.setImplementation_stage(inputImplementationStageOrder.getText());
+                order.setImplementation_stage(comboboxImplementationStageOrder.getValue());
                 order.setOrder_date(inputDateOrder.getText());
-                order.setCustomer((Customers) em.find(Customers.class, Long.valueOf(inputCustomerOrder.getText())));
-                order.addBook((Books) em.find(Books.class, inputIsbnOrder.getText()));
+                
+                String n = "";
+                for (char ch : comboboxCustomerOrder.getValue().toCharArray()){
+                    if((".").equals(Character.toString(ch)))
+                       break;
+                    n += Character.toString(ch);
+                }
+                order.setCustomer((Customers) em.find(Customers.class, Long.valueOf(n)));
+                order.addBook((Books) em.find(Books.class, combboxIsbnOrder.getValue()));
                 
                 em.getTransaction().begin();
                 em.persist(order);
                 em.getTransaction().commit();
+                em.close();
             }
         } catch (Exception e ){
             System.out.println("Error: " + e);
@@ -587,8 +654,8 @@ public class ADMINController implements Initializable {
     @FXML
     private void handleBtnDeleteOrder(ActionEvent event) {
         try {
+            em = emf.createEntityManager();
             Orders order = em.find(Orders.class, Long.valueOf(inputIdOrder.getText()));
-            
             
             try {
                 em.getTransaction().begin();
@@ -601,7 +668,8 @@ public class ADMINController implements Initializable {
             order.removeBook((Books) order.getBook().get(0));
             em.remove(order);
             em.getTransaction().commit();  
-        } catch (Exception e ){
+            em.close();
+        } catch (Exception e){
             System.out.println("Error: " + e);
         }
         
@@ -610,20 +678,30 @@ public class ADMINController implements Initializable {
     @FXML
     private void handleBtnUpdateOrder(ActionEvent event) {
         try {
+            em = emf.createEntityManager();
             Orders order = em.find(Orders.class, Long.valueOf(inputIdOrder.getText()));
             
-            if (!(("").equals(inputImplementationStageOrder.getText()) || ("").equals(inputDateOrder.getText()) || 
-                    ("").equals(inputCustomerOrder.getText()) || ("").equals(inputIsbnOrder.getText()))){
+            if (!(comboboxImplementationStageOrder.getValue() == null || ("").equals(inputDateOrder.getText()) || 
+                    comboboxCustomerOrder.getValue() == null || combboxIsbnOrder.getValue() == null)){
                 
-                order.setImplementation_stage(inputImplementationStageOrder.getText());
+                order.setImplementation_stage(comboboxImplementationStageOrder.getValue());
                 order.setOrder_date(inputDateOrder.getText());
-                order.setCustomer((Customers) em.find(Customers.class, Long.valueOf(inputCustomerOrder.getText())));
+                
+                String n = "";
+                for (char ch : comboboxCustomerOrder.getValue().toCharArray()){
+                    if((".").equals(Character.toString(ch)))
+                       break;
+                    n += Character.toString(ch);
+                }
+                order.setCustomer((Customers) em.find(Customers.class, Long.valueOf(n)));
+                
                 order.removeBook((Books) order.getBook().get(0));
-                order.addBook((Books) em.find(Books.class, inputIsbnOrder.getText()));
+                order.addBook((Books) em.find(Books.class, combboxIsbnOrder.getValue()));
                 
                 em.getTransaction().begin();
                 em.persist(order);
                 em.getTransaction().commit();
+                em.close();
             }
         } catch (Exception e ){
             System.out.println("Error: " + e);
@@ -632,22 +710,44 @@ public class ADMINController implements Initializable {
         showDataOrders();
     }
     
-    // -------- KSIĄŻKI DODAJ USUŃ AKTUALIZUJ --------
+    // -------- KSIĄŻKI -> DODAJ USUŃ AKTUALIZUJ --------
     @FXML
     private void handleBtnAddBook(ActionEvent event) {
         try {
+            em = emf.createEntityManager();
             Books book = new Books();
             
-            if (!(("").equals(inputTitleBook.getText()) || ("").equals(inputAuthorBook.getText()) || 
-                    ("").equals(inputPublisherBook.getText()) || ("").equals(inputTypeBook.getText()) || 
+            if (!(("").equals(inputTitleBook.getText()) || comboboxAuthorBook.getValue() == null || 
+                    comboboxPublisherBook.getValue() == null || comboboxTypeBook.getValue() == null || 
                     ("").equals(inputReleaseDateBook.getText()) || ("").equals(inputQuantityBook.getText()) || 
                     ("").equals(inputPriceBook.getText()) || ("").equals(inputIsbnBook.getText()))){
+
+                String n = "";
+                for (char ch : comboboxAuthorBook.getValue().toCharArray()){
+                    if((".").equals(Character.toString(ch)))
+                       break;
+                    n += Character.toString(ch);
+                }
+                book.setAuthor((Authors) em.find(Authors.class, Long.valueOf(n)));
+                
+                String n1 = "";
+                for (char ch : comboboxPublisherBook.getValue().toCharArray()){
+                    if((".").equals(Character.toString(ch)))
+                       break;
+                    n1 += Character.toString(ch);
+                }
+                book.setPublisher((Publishers) em.find(Publishers.class, Long.valueOf(n1)));
+                
+                String n2 = "";
+                for (char ch : comboboxTypeBook.getValue().toCharArray()){
+                    if((".").equals(Character.toString(ch)))
+                       break;
+                    n2 += Character.toString(ch);
+                }
+                book.setType((Types) em.find(Types.class, Long.valueOf(n2)));
                 
                 book.setIsbn(inputIsbnBook.getText());
                 book.setTitle(inputTitleBook.getText());
-                book.setAuthor((Authors) em.find(Authors.class, Long.valueOf(inputAuthorBook.getText())));
-                book.setPublisher((Publishers) em.find(Publishers.class, Long.valueOf(inputPublisherBook.getText())));
-                book.setType((Types) em.find(Types.class, Long.valueOf(inputTypeBook.getText())));
                 book.setRelease_date(inputReleaseDateBook.getText());
                 book.setQuantity_available(Integer.parseInt(inputQuantityBook.getText()));
                 book.setPrice(Double.parseDouble(inputPriceBook.getText()));
@@ -655,16 +755,19 @@ public class ADMINController implements Initializable {
                 em.getTransaction().begin();
                 em.persist(book);
                 em.getTransaction().commit();
+                em.close();
             }
         } catch (Exception e ){
             System.out.println("Error: " + e);
         }
+        
         
         showDataBooks();
     }
     @FXML
     private void handleBtnDeleteBook(ActionEvent event) {
         try {
+            em = emf.createEntityManager();
             Books book = em.find(Books.class,(String) inputIsbnBook.getText());
             
             try {
@@ -677,6 +780,7 @@ public class ADMINController implements Initializable {
             
             em.remove(book);
             em.getTransaction().commit();  
+            em.close();
         } catch (Exception e ){
             System.out.println("Error: " + e);
         }
@@ -686,18 +790,40 @@ public class ADMINController implements Initializable {
     @FXML
     private void handleBtnUpdateBook(ActionEvent event) {
         try {
+            em = emf.createEntityManager();
             Books book = em.find(Books.class, inputIsbnBook.getText());
             
             
-            if (!(("").equals(inputTitleBook.getText()) || ("").equals(inputAuthorBook.getText()) || 
-                    ("").equals(inputPublisherBook.getText()) || ("").equals(inputTypeBook.getText()) || 
+            if (!(("").equals(inputTitleBook.getText()) || comboboxAuthorBook.getValue() == null || 
+                    comboboxPublisherBook.getValue() == null || comboboxTypeBook.getValue() == null || 
                     ("").equals(inputReleaseDateBook.getText()) || ("").equals(inputQuantityBook.getText()) || 
                     ("").equals(inputPriceBook.getText()))){
                 
+                
+                String n = "";
+                for (char ch : comboboxAuthorBook.getValue().toCharArray()){
+                    if((".").equals(Character.toString(ch)))
+                       break;
+                    n += Character.toString(ch);
+                }
+                book.setAuthor((Authors) em.find(Authors.class, Long.valueOf(n)));
+                
+                String n1 = "";
+                for (char ch : comboboxPublisherBook.getValue().toCharArray()){
+                    if((".").equals(Character.toString(ch)))
+                       break;
+                    n1 += Character.toString(ch);
+                }
+                book.setPublisher((Publishers) em.find(Publishers.class, Long.valueOf(n1)));
+                
+                String n2 = "";
+                for (char ch : comboboxTypeBook.getValue().toCharArray()){
+                    if((".").equals(Character.toString(ch)))
+                       break;
+                    n2 += Character.toString(ch);
+                }
+                book.setType((Types) em.find(Types.class, Long.valueOf(n2)));
                 book.setTitle(inputTitleBook.getText());
-                book.setAuthor((Authors) em.find(Authors.class, Long.valueOf(inputAuthorBook.getText())));
-                book.setPublisher((Publishers) em.find(Publishers.class, Long.valueOf(inputPublisherBook.getText())));
-                book.setType((Types) em.find(Types.class, Long.valueOf(inputTypeBook.getText())));
                 book.setRelease_date(inputReleaseDateBook.getText());
                 book.setQuantity_available(Integer.parseInt(inputQuantityBook.getText()));
                 book.setPrice(Double.parseDouble(inputPriceBook.getText()));
@@ -705,6 +831,7 @@ public class ADMINController implements Initializable {
                 em.getTransaction().begin();
                 em.merge(book);
                 em.getTransaction().commit();
+                em.close();
             }
         } catch (Exception e ){
             System.out.println("Error: " + e);
@@ -713,10 +840,11 @@ public class ADMINController implements Initializable {
         showDataBooks();
     }
     
-    // -------- AUTOR DODAJ USUŃ AKTUALIZUJ --------
+    // -------- AUTOR -> DODAJ USUŃ AKTUALIZUJ --------
     @FXML
     private void handleBtnAddAuthor(ActionEvent event) {
         try{
+            em = emf.createEntityManager();
             Authors author = new Authors();
             
             if (!(("").equals(inputNameAuthor.getText()) || ("").equals(inputLastnameAuthor.getText()))){
@@ -725,6 +853,7 @@ public class ADMINController implements Initializable {
                 em.getTransaction().begin();
                 em.persist(author);
                 em.getTransaction().commit();
+                em.close();
             }
         } catch (Exception e ){
             System.out.println("Error: " + e);
@@ -735,6 +864,7 @@ public class ADMINController implements Initializable {
     @FXML
     private void handleBtnDeleteAuthor(ActionEvent event) {
         try {
+            em = emf.createEntityManager();
             Authors author = em.find(Authors.class, Long.valueOf(inputIdAuthor.getText()));
             
             try {
@@ -747,6 +877,7 @@ public class ADMINController implements Initializable {
             
             em.remove(author);
             em.getTransaction().commit();
+            em.close();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -756,6 +887,7 @@ public class ADMINController implements Initializable {
     @FXML
     private void handleBtnUpdateAuthor(ActionEvent event) {
         try {
+            em = emf.createEntityManager();
             Authors author = em.find(Authors.class, Long.valueOf(inputIdAuthor.getText()));
             
             try {
@@ -769,7 +901,8 @@ public class ADMINController implements Initializable {
             author.setName(inputNameAuthor.getText());
             author.setLastname(inputLastnameAuthor.getText());
             em.merge(author);
-            em.getTransaction().commit();      
+            em.getTransaction().commit();   
+            em.close();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -777,10 +910,11 @@ public class ADMINController implements Initializable {
         showDataAuthors();
     }
     
-    // -------- WYDAWNICTWO DODAJ USUŃ AKTUALIZUJ --------
+    // -------- WYDAWNICTWO -> DODAJ USUŃ AKTUALIZUJ --------
     @FXML
     private void handleBtnAddPublisher(ActionEvent event) {
         try{
+            em = emf.createEntityManager();
             Publishers publisher = new Publishers();
             
             if (!("").equals(inputNamePublisher.getText())){
@@ -788,6 +922,7 @@ public class ADMINController implements Initializable {
                 em.getTransaction().begin();
                 em.persist(publisher);
                 em.getTransaction().commit();
+                em.close();
             }
         } catch (Exception e ){
             System.out.println("Error: " + e);
@@ -799,6 +934,7 @@ public class ADMINController implements Initializable {
     @FXML
     private void handleBtnDeletePublisher(ActionEvent event) {
         try {
+            em = emf.createEntityManager();
             Publishers publisher = em.find(Publishers.class, Long.valueOf(inputIdPublisher.getText()));
             
             try {
@@ -811,6 +947,7 @@ public class ADMINController implements Initializable {
             
             em.remove(publisher);
             em.getTransaction().commit();
+            em.close();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -820,6 +957,7 @@ public class ADMINController implements Initializable {
     @FXML
     private void handleBtnUpdatePublisher(ActionEvent event) {
         try {
+            em = emf.createEntityManager();
             Publishers publisher = em.find(Publishers.class, Long.valueOf(inputIdPublisher.getText()));
             
             try {
@@ -833,7 +971,8 @@ public class ADMINController implements Initializable {
             if (!("").equals(inputNamePublisher.getText())){
                 publisher.setName(inputNamePublisher.getText());
                 em.merge(publisher);
-                em.getTransaction().commit();   
+                em.getTransaction().commit();  
+                em.close();
             }
   
         } catch (Exception e) {
@@ -843,16 +982,18 @@ public class ADMINController implements Initializable {
         showDataPublishers();
     }
 
-    // -------- GATUNEK DODAJ USUŃ AKTUALIZUJ --------
+    // -------- GATUNEK -> DODAJ USUŃ AKTUALIZUJ --------
     @FXML
     private void handleBtnAddType(ActionEvent event) {
         try {
+            em = emf.createEntityManager();
             Types type = new Types();
             if (!("").equals(inputNameType.getText())){
                 type.setName(inputNameType.getText());
                 em.getTransaction().begin();
                 em.persist(type);
                 em.getTransaction().commit();
+                em.close();
             }
         } catch (Exception e ){
             System.out.println("Error: " + e);
@@ -863,6 +1004,7 @@ public class ADMINController implements Initializable {
     @FXML
     private void handleBtnDeleteType(ActionEvent event) {
         try {
+            em = emf.createEntityManager();
             Types type = em.find(Types.class, Long.valueOf(inputIdType.getText()));
             
             try {
@@ -875,6 +1017,7 @@ public class ADMINController implements Initializable {
             
             em.remove(type);
             em.getTransaction().commit();
+            em.close();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -884,6 +1027,7 @@ public class ADMINController implements Initializable {
     @FXML
     private void handleBtnUpdateType(ActionEvent event) {
         try {
+            em = emf.createEntityManager();
             Types type = em.find(Types.class, Long.valueOf(inputIdType.getText()));
             
             try {
@@ -898,6 +1042,7 @@ public class ADMINController implements Initializable {
                 type.setName(inputNameType.getText());
                 em.merge(type);
                 em.getTransaction().commit(); 
+                em.close();
             }
             
         } catch (Exception e) {
@@ -905,5 +1050,91 @@ public class ADMINController implements Initializable {
         }
 
         showDataTypes();
+    }
+
+    // -------- Table View --------
+    @FXML
+    private void handleTableViewCustomers(MouseEvent event) {
+        try {
+            Customers customer = tableCustomers.getSelectionModel().getSelectedItem();
+            inputIdCustomer.setText(Long.toString(customer.getId_customer()));
+            inputEmailCustomer.setText(customer.getEmail());
+            inputPasswordCustomer.setText(customer.getPassword());
+            inputNameCustomer.setText(customer.getName());
+            inputLastnameCustomer.setText(customer.getLastname());
+            inputPhoneCustomer.setText(customer.getPhone());
+            inputCityCustomer.setText(customer.getCity());
+            inputStreetCustomer.setText(customer.getStreet());
+            inputHouseNumberCustomer.setText(customer.getHouse_number());
+            inputZipcodeCustomer.setText(customer.getZipcode());
+            inputVoivodeshipCustomer.setText(customer.getVoivodeship());
+            comoboxAdminCustomer.getSelectionModel().select(customer.isAdmin());
+            
+        } catch (Exception e) {
+            System.out.print("Error: " + e);
+        }
+    }
+    @FXML
+    private void handleTableViewOrders(MouseEvent event) {
+        try {
+            Orders orders = tableOrders.getSelectionModel().getSelectedItem();
+            inputIdOrder.setText(Long.toString(orders.getId_order()));
+            comboboxImplementationStageOrder.getSelectionModel().select(orders.getImplementation_stage());
+            inputDateOrder.setText(orders.getOrder_date());
+            comboboxCustomerOrder.getSelectionModel().select(orders.getCustomer().getId_customer() + ". " 
+                    + orders.getCustomer().getName() + " " + orders.getCustomer().getLastname());
+            combboxIsbnOrder.getSelectionModel().select(orders.getBook().get(0).getIsbn());
+
+        } catch (Exception e) {
+            System.out.print("Error: " + e);
+        }
+    }
+    @FXML
+    private void handleTableViewBooks(MouseEvent event) {
+        try {
+            Books book = tableBooks.getSelectionModel().getSelectedItem();
+            inputIsbnBook.setText(book.getIsbn());
+            inputTitleBook.setText(book.getTitle());
+            inputReleaseDateBook.setText(book.getRelease_date());
+            inputQuantityBook.setText("" + book.getQuantity_available());
+            inputPriceBook.setText("" + book.getPrice());
+            comboboxAuthorBook.getSelectionModel().select(book.getAuthor().getId_author() + ". " +book.getAuthor().getName() + " " + book.getAuthor().getLastname());
+            comboboxPublisherBook.getSelectionModel().select(book.getPublisher().getId_publisher() + ". " +book.getPublisher().getName());
+            comboboxTypeBook.getSelectionModel().select(book.getType().getId_type() + ". " +book.getType().getName());
+            
+        } catch (Exception e) {
+            System.out.print("Error: " + e);
+        }
+    }
+    @FXML
+    private void handleTableViewAuthors(MouseEvent event) {
+        try {
+            Authors author = tableAuthors.getSelectionModel().getSelectedItem();
+            inputIdAuthor.setText(Long.toString(author.getId_author()));
+            inputNameAuthor.setText(author.getName());
+            inputLastnameAuthor.setText(author.getLastname());
+        } catch (Exception e) {
+            System.out.print("Error: " + e);
+        }
+    }
+    @FXML
+    private void handleTableViewPublishers(MouseEvent event) {
+        try {
+            Publishers pub = tablePublishers.getSelectionModel().getSelectedItem();
+            inputIdPublisher.setText(Long.toString(pub.getId_publisher()));
+            inputNamePublisher.setText(pub.getName());
+        } catch (Exception e) {
+            System.out.print("Error: " + e);
+        }
+    }
+    @FXML
+    private void handleTableViewTypes(MouseEvent event) {
+        try {
+            Types type = tableTypes.getSelectionModel().getSelectedItem();
+            inputIdType.setText(Long.toString(type.getId_type()));
+            inputNameType.setText(type.getName());
+        } catch (Exception e) {
+            System.out.print("Error: " + e);
+        }
     }
 }

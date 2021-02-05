@@ -24,11 +24,11 @@ public class Orders implements Serializable {
     @Column (name = "implementation_stage")
     private String implementation_stage;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_customer")
     private Customers customer;
     
-    @ManyToMany(mappedBy = "orders")
+    @ManyToMany(mappedBy = "orders", fetch = FetchType.EAGER)
     private List<Books> books = new ArrayList<>();
     
     public long getId_order() {

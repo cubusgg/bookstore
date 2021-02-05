@@ -28,19 +28,19 @@ public class Books implements Serializable{
     @Column (name = "price")
     private double price;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_publisher")
     private Publishers publisher;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_author")
     private Authors author;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_type")
     private Types type;
     
-    @ManyToMany(cascade={CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade={CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "books_orders", joinColumns = @JoinColumn(name = "isbn"), inverseJoinColumns = @JoinColumn(name = "order_id"))
     private List<Orders> orders = new ArrayList<>();
     
